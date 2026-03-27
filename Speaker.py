@@ -212,9 +212,10 @@ import asyncio
 import httpx
 import io
 import hashlib
-
-os.environ["FFMPEG_BINARY"]  = r"C:\Users\user\Downloads\ffmpeg-8.1-full_build\bin\ffmpeg.exe"
-os.environ["FFPROBE_BINARY"] = r"C:\Users\user\Downloads\ffmpeg-8.1-full_build\bin\ffprobe.exe"
+import platform
+if platform.system() == "Windows":
+    os.environ["FFMPEG_BINARY"]  = r"C:\Users\user\Downloads\ffmpeg-8.1-full_build\bin\ffmpeg.exe"
+    os.environ["FFPROBE_BINARY"] = r"C:\Users\user\Downloads\ffmpeg-8.1-full_build\bin\ffprobe.exe"
 
 from pydub import AudioSegment
 
@@ -296,7 +297,7 @@ class CartesiaSpeaker:
             "Content-Type":     "application/json",
         }
 
-        self._recall_client  = httpx.AsyncClient(timeout=30, limits=limits, http2=True)
+        self._recall_client  = httpx.AsyncClient(timeout=30, limits=limits)
         self._recall_headers = {
             "Authorization": f"Token {self.recall_key}",
             "Content-Type":  "application/json",
